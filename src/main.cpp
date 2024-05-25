@@ -41,9 +41,12 @@ int main(int argc, char **argv) {
         }
 
         // execute our command
+        std::cout << cmd_result.open().unwrap_command_arg() << std::endl;
         env.process_command(cmd_result.open());
         arg_queue.pop();
     }
+
+    std::cout << "end" << std::endl;
 
     return 0;
 }

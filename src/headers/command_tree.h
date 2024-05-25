@@ -55,7 +55,7 @@ namespace genv {
                     CTNode* current_node = &this->cur->branches[i];
                     if (current_node->command.get_validation_function()(argument)) {
                         this->cur = current_node;
-                        return Chest<GenvCommand>::stuff(current_node->command);
+                        return Chest<GenvCommand>::stuff({current_node->command.unwrap_command_type(), argument});
                     }
                 }
                 

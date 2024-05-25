@@ -86,7 +86,7 @@ namespace genv {
                     };
                 case CommandType::DIR_NAME:
                     return [](const std::string& arg) {
-                        return arg.find(' ') == std::string::npos;
+                        return arg.find(' ') == std::string::npos && !std::filesystem::path(arg).has_extension();
                     };
                 default:
                     return [](const std::string& arg) {
@@ -100,6 +100,7 @@ namespace genv {
             return this->cmd_type;
         }
 
+        // Returns the string value being wrapped by the GenvCommand object
         std::string unwrap_command_arg() const {
             return this->value;
         }
