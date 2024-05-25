@@ -40,16 +40,9 @@ int main(int argc, char **argv) {
             exit(EXIT_FAILURE);
         }
 
-        cmd_queue.push(cmd_result.open());
+        // execute our command
+        env.process_command(cmd_result.open());
         arg_queue.pop();
-    }
-
-    /// std::cout << "Commands all make sense it seems" << std::endl;
-
-    // execute our commands
-    while (!cmd_queue.empty()) {
-        env.process_command(cmd_queue.front());
-        cmd_queue.pop();
     }
 
     return 0;
