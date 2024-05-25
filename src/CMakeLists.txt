@@ -1,0 +1,1 @@
+add_executable(genv command_tree.cpp studio.cpp main.cpp)

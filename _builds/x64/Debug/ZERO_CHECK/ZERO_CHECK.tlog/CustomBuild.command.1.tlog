@@ -1,0 +1,10 @@
+^C:\USERS\KAYTC\DOCUMENTS\CS_PROJECTS\DESKTOP_DEV\GENV\_BUILDS\CMAKEFILES\3C223B6EE68879A8B02DA867B553B7FD\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/kaytc/Documents/CS_Projects/desktop_dev/genv -BC:/Users/kaytc/Documents/CS_Projects/desktop_dev/genv/_builds --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/Users/kaytc/Documents/CS_Projects/desktop_dev/genv/_builds/genv.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
