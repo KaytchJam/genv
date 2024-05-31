@@ -4,6 +4,7 @@
 #include <string>
 #include <iostream>
 #include <filesystem>
+#include <regex>
 
 namespace genv {
     // takes in the args 
@@ -88,6 +89,18 @@ namespace genv {
                 case CommandType::DIR_NAME:
                     return [](const std::string& arg) {
                         return arg.find(' ') == std::string::npos && !std::filesystem::path(arg).has_extension();
+                    };
+                case CommandType::REFERENCE:
+                    return [](const std::string& arg) {
+                        return arg == "ref";
+                    };
+                case CommandType::URL:
+                    return [](const std::string& arg) {
+                        return (arg.size() >= 4) && (arg.substr(0, 4) == "http");
+                    };
+                case CommandType::FILE_NAME:
+                    return [](const std::string& arg) {
+                        return !std::filesystem::path(arg).has_extension();
                     };
                 default:
                     return [](const std::string& arg) {
