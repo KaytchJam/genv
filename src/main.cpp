@@ -4,9 +4,14 @@
 #include <filesystem>
 #include <queue>
 #include <stdlib.h>
+#include <fstream>
+#include <sstream>
+#include <curl/curl.h>
+
+#include "headers/toolkit/chest.h"
+#include "headers/toolkit/str_slice.h"
 
 #include "headers/utility.h"
-#include "headers/chest.h"
 #include "headers/general_errors.h"
 #include "headers/studio.h"
 #include "headers/command_tree.h"
@@ -41,12 +46,11 @@ int main(int argc, char **argv) {
         }
 
         // execute our command
-        std::cout << cmd_result.open().unwrap_command_arg() << std::endl;
+        std::cout << "Processing argument: " << cmd_result.open().unwrap_command_arg() << std::endl;
         env.process_command(cmd_result.open());
         arg_queue.pop();
     }
 
     std::cout << "end" << std::endl;
-
-    return 0;
+    return EXIT_SUCCESS;
 }
