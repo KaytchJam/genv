@@ -44,7 +44,6 @@ struct StrSlice {
         std::string out_str(this->length, ' ');
         for (int i = 0; i < this->length; i++) {
             out_str[i] = this->get(i);
-            std::cout << out_str[i] << std::endl;
         }
 
         return out_str;
