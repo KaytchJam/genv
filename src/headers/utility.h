@@ -33,14 +33,14 @@ namespace genv {
 
         if (loop_times >= UPPER) {
             // Would've return a chest here but we really can't do anything without the commands.txt file, so i might as well just exit
-            std::cout << "Couldn't find 'UPPER' in a reasonable amount of iterations and assuming program is in an infinite loop. Exiting genv." << std::endl;
+            std::cout << "Was unable to find the 'genv' directory from the executable's path." << std::endl;
             exit(EXIT_FAILURE);
         }
 
         return (exe_path / command_file_name).string();
     }
 
-    // represents all the encounterable states in 
+    // represents all the encounterable states
     enum CommandType{
         BUILD,
         REFERENCE,
@@ -63,6 +63,7 @@ namespace genv {
         GenvCommand(const GenvCommand& rhs) : cmd_type(rhs.cmd_type), value(rhs.value) {}
         ~GenvCommand() {}
 
+        // return a string representation of the current command_type
         std::string to_string() const {
             switch (this->cmd_type) {
                 case CommandType::BUILD: return "build";

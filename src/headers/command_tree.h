@@ -3,7 +3,7 @@
 #include <string>
 
 #include "utility.h"
-#include "chest.h"
+#include "toolkit/chest.h"
 
 namespace genv {
     // Data structure for handling the validity of user passed in arguments

@@ -5,7 +5,7 @@
 namespace genv {
     class Studio {
     ///
-    /// bool is_genv_directory;
+    bool is_genv_directory = false;
     /// 
     ///
     public:
