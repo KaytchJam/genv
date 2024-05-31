@@ -1,2 +1,13 @@
 # CMake generation dependency list for this directory.
+C:/Program Files/CMake/share/cmake-3.27/Modules/CMakeFindDependencyMacro.cmake
+C:/Program Files/CMake/share/cmake-3.27/Modules/FindCURL.cmake
+C:/Program Files/CMake/share/cmake-3.27/Modules/FindPackageHandleStandardArgs.cmake
+C:/Program Files/CMake/share/cmake-3.27/Modules/FindPackageMessage.cmake
+C:/Program Files/CMake/share/cmake-3.27/Modules/FindZLIB.cmake
+C:/Program Files/CMake/share/cmake-3.27/Modules/SelectLibraryConfigurations.cmake
+C:/Users/kaytc/Documents/CS_Projects/Dependencies/vcpkg/vcpkg/packages/curl_x64-windows-static/share/curl/CURLConfig.cmake
+C:/Users/kaytc/Documents/CS_Projects/Dependencies/vcpkg/vcpkg/packages/curl_x64-windows-static/share/curl/CURLConfigVersion.cmake
+C:/Users/kaytc/Documents/CS_Projects/Dependencies/vcpkg/vcpkg/packages/curl_x64-windows-static/share/curl/CURLTargets-debug.cmake
+C:/Users/kaytc/Documents/CS_Projects/Dependencies/vcpkg/vcpkg/packages/curl_x64-windows-static/share/curl/CURLTargets-release.cmake
+C:/Users/kaytc/Documents/CS_Projects/Dependencies/vcpkg/vcpkg/packages/curl_x64-windows-static/share/curl/CURLTargets.cmake
 C:/Users/kaytc/Documents/CS_Projects/desktop_dev/genv/src/CMakeLists.txt
