@@ -6,6 +6,8 @@ namespace genv {
     class Studio {
     ///
     bool is_genv_directory = false;
+    std::string ref_image_url;
+    std::string ref_image_filename;
     /// 
     ///
     public:
