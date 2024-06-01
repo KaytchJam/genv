@@ -8,20 +8,27 @@
 
 #define GENV_FILE_NAME ".genv"
 
+// struct for tracking HTTP state during transfer
 struct HeaderValidator {
     bool is_http;
     bool is_image;
     std::string extension;
 
+    // checks whether all conditions for the HeaderValidator have been satisfied
     bool all_good() {
         return this->is_http && this->is_image && (this->extension != "");
     }
 
+    // checks whether the given StrSlice 'slice' contains HTTP and was OK
+    // if so, sets the HeadverValidator.is_http field to true
     static bool http_check(HeaderValidator& hv, StrSlice& slice) {
         hv.is_http = slice.contains("HTTP") && slice.contains("OK");
         return hv.is_http;
     }
 
+    // checks whether the given StrSlice 'slice' contains "image"
+    // if so, sets the HeaderValidator.is_image field to true
+    // and sets the hv.extension field to the file extension type
     static bool image_check(HeaderValidator& hv, StrSlice& slice) {
         std::string target = "image";
         int index = slice.contains(target);
@@ -36,7 +43,8 @@ struct HeaderValidator {
     }
 };
 
-static size_t assess_header(char* buffer, size_t size, size_t nitems, void* userdata) {
+// reads header information and extracts whether the HTTP connection was ok, whether the passed in data is an IMAGE
+static size_t assess_header_callback(char* buffer, size_t size, size_t nitems, void* userdata) {
     void** user_data_arr = (void**) userdata;
     
     // get our sent in user data
@@ -57,9 +65,7 @@ static size_t assess_header(char* buffer, size_t size, size_t nitems, void* user
 
         // We hit the delimiter, do the current header_func (as indicated by our h_func_idx)
         if (chest_slice.is_stuffed()) {
-            StrSlice& slice_ref = chest_slice.open();
-            bool passed = header_funcs[h_func_idx](hv, slice_ref);
-            h_func_idx += passed;
+            h_func_idx += header_funcs[h_func_idx](hv, chest_slice.open());
             tok_start = byte + 1;
         }
 
@@ -68,7 +74,6 @@ static size_t assess_header(char* buffer, size_t size, size_t nitems, void* user
 
     if (*fpp == NULL && hv.all_good()) {
         filename += "." + hv.extension;
-
         int result = fopen_s(fpp, filename.c_str(), "wb");
         if (result != 0) {
             std::cout << "Error: " << strerror(result) << std::endl;
@@ -79,7 +84,8 @@ static size_t assess_header(char* buffer, size_t size, size_t nitems, void* user
     return nitems;
 }
 
-static size_t write_func(char* buffer, size_t size, size_t nmemb, void* userdata) {
+// Writes buffer data to our file
+static size_t write_func_callback(char* buffer, size_t size, size_t nmemb, void* userdata) {
     void** user_data_arr = (void**) userdata;
     FILE* fpp = *((FILE**) *(user_data_arr + 1));
 
@@ -87,6 +93,7 @@ static size_t write_func(char* buffer, size_t size, size_t nmemb, void* userdata
     return nmemb;
 }
 
+// takes in an image link 'url' and saves it to a file named 'file_name'. File extension is determined during runtime.
 static bool save_image_url(const std::string& url, std::string file_name) {
     HeaderValidator hv{false, false, ""};
     FILE* fp = NULL;
@@ -99,9 +106,9 @@ static bool save_image_url(const std::string& url, std::string file_name) {
         curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
         curl_easy_setopt(curl, CURLOPT_FAILONERROR, 1L);
         curl_easy_setopt(curl, CURLOPT_HEADERDATA, my_data);
-        curl_easy_setopt(curl, CURLOPT_HEADERFUNCTION, assess_header);
+        curl_easy_setopt(curl, CURLOPT_HEADERFUNCTION, assess_header_callback);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, my_data);
-        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_func);
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_func_callback);
 
         res = curl_easy_perform(curl);
         std::cout << curl_easy_strerror(res) << std::endl;
@@ -133,6 +140,7 @@ namespace genv {
         return s;
     }
 
+    // takes in a GenvCommand and handles the command depending on the command type
     void Studio::process_command(const GenvCommand& command) {
         switch (command.unwrap_command_type()) {
             case CommandType::BUILD:
